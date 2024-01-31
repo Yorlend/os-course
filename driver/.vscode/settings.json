@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        ".driver*": true,
+        ".[Mm]odule*": true,
+        "*.mod*": true,
+        "*.o": true,
+        "Module.symvers": true,
+        "modules.order": true,
+    }
+}
