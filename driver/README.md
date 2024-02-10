@@ -6,7 +6,7 @@ Information from /sys/kernel/debug/devices about fingerprint device:
     D:  Ver= 2.00 Cls=02(comm.) Sub=01 Prot=01 MxPS=64 #Cfgs=  1
     P:  Vendor=27c6 ProdID=5125 Rev= 2.00
     S:  Manufacturer=Shenzhen Goodix Technology Co.,Ltd.
-    S:  Product=Goodix Fingerprint Device 
+    S:  Product=Goodix Fingerprint Device
     S:  SerialNumber=00000000001A
     C:* #Ifs= 2 Cfg#= 1 Atr=60 MxPwr=100mA
     I:* If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=01 Prot=01 Driver=(none)
