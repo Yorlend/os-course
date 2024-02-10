@@ -6,8 +6,8 @@
                 "${workspaceFolder}",
                 "${workspaceFolder}/**",
                 "/usr/src/linux/include/",
-                "/usr/lib/modules/6.7.1-arch1-1/build/arch/x86/include/",
-                "/usr/lib/modules/6.7.1-arch1-1/build/arch/x86/include/generated/"
+                "/usr/lib/modules/6.7.4-arch1-1/build/arch/x86/include/",
+                "/usr/lib/modules/6.7.4-arch1-1/build/arch/x86/include/generated/"
             ],
             "defines": [
                 "__KERNEL__",
