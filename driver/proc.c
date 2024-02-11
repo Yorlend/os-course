@@ -3,6 +3,8 @@
 #include <linux/seq_file.h>
 #include <linux/atomic.h>
 #include <linux/wait.h>
+#include <linux/poll.h>
+#include <linux/random.h>
 #include "constants.h"
 #include "proc.h"
 
@@ -12,6 +14,7 @@ static struct proc_dir_entry *signal_entry;
 
 static atomic_t reader_available = ATOMIC_INIT(1);
 static DECLARE_WAIT_QUEUE_HEAD(reader_queue);
+static DECLARE_WAIT_QUEUE_HEAD(poll_wait_queue);
 
 static const void* signature_data = NULL;
 static size_t signature_data_size = 0;
@@ -25,6 +28,7 @@ void* next(struct seq_file *m, void *v, loff_t *pos);
 int show(struct seq_file *m, void *v);
 
 int open(struct inode* inode, struct file* file);
+static unsigned int poll(struct file *file, poll_table *wait);
 
 int sgn_open(struct inode* inode, struct file* file);
 ssize_t sgn_write(struct file* file, const char __user* buf, size_t count, loff_t* pos);
@@ -40,7 +44,8 @@ static const struct proc_ops fprint_proc_ops = {
     .proc_open    = open,
     .proc_read    = seq_read,
     .proc_lseek   = seq_lseek,
-    .proc_release = seq_release
+    .proc_release = seq_release,
+    .proc_poll    = poll,
 };
 
 static const struct proc_ops fprint_signal_ops = {
@@ -95,6 +100,7 @@ void post_signature_data(const void* data, size_t size)
     signature_data = data;
     signature_data_size = size;
     signature_data_available = true;
+    wake_up_interruptible(&poll_wait_queue);
     wake_up_interruptible(&reader_queue);
 }
 
@@ -110,7 +116,7 @@ void stop(struct seq_file *m, void *v)
 {
     printk(KERN_INFO LOG_PREFIX "stop(m)\n");
 
-    atomic_set_release(&reader_available, 1);
+    atomic_set(&reader_available, 1);
 }
 
 void* next(struct seq_file *m, void *v, loff_t *pos)
@@ -134,18 +140,22 @@ int show(struct seq_file *m, void *v)
     }
 
     seq_write(m, signature_data, signature_data_size);
-    printk(KERN_INFO LOG_PREFIX "signature data: '%s', size=%zu\n", (const char*)signature_data, signature_data_size);
+    printk(KERN_INFO LOG_PREFIX "signature data size=%zu\n", signature_data_size);
     return 0;
 }
 
 int open(struct inode* inode, struct file* file)
 {
-    if (!atomic_dec_and_test(&reader_available)) {
-        atomic_set_release(&reader_available, 1);
-        printk(KERN_WARNING LOG_PREFIX "reader is busy\n");
-        return -1;
-    }
+    signature_data_available = false;
     return seq_open(file, &fprint_seq_ops);
+}
+
+static unsigned int poll(struct file *file, poll_table *wait)
+{
+    poll_wait(file, &poll_wait_queue, wait);
+    if (signature_data_available)
+        return POLLIN | POLLRDNORM;
+    return 0;
 }
 
 int sgn_open(struct inode* inode, struct file* file)
@@ -153,14 +163,13 @@ int sgn_open(struct inode* inode, struct file* file)
     return 0;
 }
 
-static char buffer[1024] = "012345678";
+static char buffer[504*480];
 
 ssize_t sgn_write(struct file* file, const char __user* buf, size_t count, loff_t* pos)
 {
-    for (int i = 0; i < 8; i++)
-        buffer[i]++;
+    get_random_bytes(buffer, sizeof(buffer));
 
     printk(KERN_INFO LOG_PREFIX "sgn_write(file=%p, buf=%p, count=%zu, pos=%lld): '%s'\n", file, buf, count, *pos, buffer);
-    post_signature_data(buffer, 8);
+    post_signature_data(buffer, sizeof(buffer));
     return count;
 }

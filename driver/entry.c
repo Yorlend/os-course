@@ -96,6 +96,11 @@ int fprint_probe(struct usb_interface *intf, const struct usb_device_id *id)
         printk(KERN_INFO LOG_PREFIX "fingerprint usb interface endpoint[%d] address: %d\n", i, endpoint->bEndpointAddress);
     }
 
+    if (iface->desc.bNumEndpoints != 3) {
+        printk(KERN_INFO LOG_PREFIX "skipping this interface\n");
+        return 0;
+    }
+
     // work with interface number 0 and endpoint number 0
     if (iface->desc.bInterfaceNumber != 0) {
         printk(KERN_INFO LOG_PREFIX "skipping this interface\n");
