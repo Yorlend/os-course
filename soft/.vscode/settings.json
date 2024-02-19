@@ -1,9 +1,13 @@
 {
     "files.associations": {
+        "*.page-template": "vue",
+        "*.layout-template": "vue",
+        "*.vue": "vue",
         "fprint.h": "c",
         "err.h": "c",
         "errno.h": "c",
         "epoll.h": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "time.h": "c"
     }
 }

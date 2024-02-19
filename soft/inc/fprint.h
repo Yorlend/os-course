@@ -30,3 +30,5 @@ struct signature {
  *          PE_CANCL if cancelled
  */
 int scan_signature(struct signature *signature, struct timespec *timeout);
+
+int scan_timed(struct signature *signature, unsigned long long* time_ns, size_t buffer_size);

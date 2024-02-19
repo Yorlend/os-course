@@ -6,7 +6,9 @@
                 "${workspaceFolder}/**"
             ],
             "defines": [
-                "__USE_POSIX"
+                "__USE_POSIX",
+                "__USE_POSIX199309",
+                "_GNU_SOURCE"
             ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c17",
