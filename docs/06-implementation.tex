@@ -1,0 +1,148 @@
+\chapter{Технологический раздел}
+
+\section{Выбор языка и среды разработки}
+
+Для написания драйвера был выбран язык программирования C.
+
+Для сборки драйвера будет использована утилита Make. В качестве среды разработки был выбран редактор VSCode.
+
+Драйвер разрабатывается для ОС Linux версии 6.7.
+
+\section{Точки входа драйвера}
+
+\begin{lstlisting}[caption={функция \texttt{probe} драйвера}]
+int fprint_probe(struct usb_interface *intf, const struct usb_device_id *id)
+{
+    printk(KERN_INFO LOG_PREFIX "fingerprint usb interface probed\n");
+
+    struct usb_host_interface *iface = intf->cur_altsetting;
+    printk(KERN_INFO LOG_PREFIX "fingerprint usb interface number: %d\n", iface->desc.bInterfaceNumber);
+    if (iface->string != NULL) {
+        printk(KERN_INFO LOG_PREFIX "fingerprint usb interface string: %s\n", iface->string);
+    } else {
+        printk(KERN_WARNING LOG_PREFIX "fingerprint usb interface string is NULL\n");
+    }
+
+    if (iface->desc.bNumEndpoints != 3) {
+        printk(KERN_INFO LOG_PREFIX "skipping this interface\n");
+        return 0;
+    }
+
+    if (iface->desc.bInterfaceNumber != 0) {
+        printk(KERN_INFO LOG_PREFIX "skipping this interface\n");
+        return 0;
+    }
+
+    struct usb_endpoint_descriptor *endpoint = &iface->endpoint[0].desc;
+    if (endpoint->bEndpointAddress != 0x82) {
+        printk(KERN_WARNING LOG_PREFIX "endpoint[1] must have adress 0x81\n");
+        return 0;
+    }
+
+    int res = initialize_fprint_endpoint(intf, endpoint);
+    if (res != 0) {
+        printk(KERN_ERR LOG_PREFIX "failed to initialize endpoint\n");
+    }
+    return res;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={функция \texttt{disconnect} драйвера}]
+void fprint_disconnect(struct usb_interface *intf)
+{
+    printk(KERN_INFO LOG_PREFIX "fingerprint usb interface disconnected\n");
+
+    struct usb_host_interface *iface = intf->cur_altsetting;
+    printk(KERN_INFO LOG_PREFIX "fingerprint usb interface number: %d\n", iface->desc.bInterfaceNumber);
+    printk(KERN_INFO LOG_PREFIX "fingerprint usb interface string: %d\n", iface->desc.iInterface);
+
+    // free allocated structures here
+    if (iface->desc.bInterfaceNumber != 0) {
+        printk(KERN_INFO LOG_PREFIX "skipping this interface\n");
+        return;
+    }
+
+    struct usb_endpoint_descriptor *endpoint = &iface->endpoint[0].desc;
+    if (endpoint->bEndpointAddress != 0x82) {
+        printk(KERN_WARNING LOG_PREFIX "endpoint[1] must have adress 0x81\n");
+        return;
+    }
+
+    struct usb_device* usbdev = interface_to_usbdev(intf);
+    struct fprint_drv_data* drvdata = dev_get_drvdata(&usbdev->dev);
+    if (drvdata != NULL) {
+        // usb_free_urb(drvdata->urb);
+        kfree(drvdata->transfer_buffer);
+        kfree(drvdata);
+        printk(KERN_INFO LOG_PREFIX "driver data free'd\n");
+    }
+}
+\end{lstlisting}
+
+\section{Работа с файловой системой proc}
+
+\begin{lstlisting}[caption={функции работы с VFS proc}]
+static atomic_t reader_available = ATOMIC_INIT(1);
+static DECLARE_WAIT_QUEUE_HEAD(reader_queue);
+static DECLARE_WAIT_QUEUE_HEAD(poll_wait_queue);
+
+static const struct seq_operations fprint_seq_ops = {
+    .start = start,
+    .next = next,
+    .stop = stop,
+    .show = show
+};
+
+static const struct proc_ops fprint_proc_ops = {
+    .proc_open    = open,
+    .proc_read    = seq_read,
+    .proc_lseek   = seq_lseek,
+    .proc_release = seq_release,
+    .proc_poll    = poll,
+};
+
+void* start(struct seq_file *m, loff_t *pos)
+{
+    seqfile_iterator = 0;
+    return &seqfile_iterator;
+}
+
+void stop(struct seq_file *m, void *v)
+{
+    atomic_set(&reader_available, 1);
+}
+
+void* next(struct seq_file *m, void *v, loff_t *pos)
+{
+    wait_event_interruptible(reader_queue, signature_data_available);
+    signature_data_available = false;
+
+    *pos += signature_data_size;
+    return NULL;
+}
+
+int show(struct seq_file *m, void *v)
+{
+    if (signature_data == NULL) {
+        printk(KERN_WARNING LOG_PREFIX "signature data is NULL\n");
+        return 0;
+    }
+
+    seq_write(m, signature_data, signature_data_size);
+    return 0;
+}
+
+int open(struct inode* inode, struct file* file)
+{
+    signature_data_available = false;
+    return seq_open(file, &fprint_seq_ops);
+}
+
+static unsigned int poll(struct file *file, poll_table *wait)
+{
+    poll_wait(file, &poll_wait_queue, wait);
+    if (signature_data_available)
+        return POLLIN | POLLRDNORM;
+    return 0;
+}
+\end{lstlisting}
