@@ -4,7 +4,7 @@
 
 Для написания драйвера был выбран язык программирования C.
 
-Для сборки драйвера будет использована утилита Make. В качестве среды разработки был выбран редактор VSCode.
+Для сборки драйвера будет использована утилита Make \cite{toolbox}. В качестве среды разработки был выбран редактор VSCode \cite{vscode}.
 
 Драйвер разрабатывается для ОС Linux версии 6.7.
 
@@ -56,7 +56,6 @@ void fprint_disconnect(struct usb_interface *intf)
     printk(KERN_INFO LOG_PREFIX "fingerprint usb interface number: %d\n", iface->desc.bInterfaceNumber);
     printk(KERN_INFO LOG_PREFIX "fingerprint usb interface string: %d\n", iface->desc.iInterface);
 
-    // free allocated structures here
     if (iface->desc.bInterfaceNumber != 0) {
         printk(KERN_INFO LOG_PREFIX "skipping this interface\n");
         return;
@@ -71,13 +70,14 @@ void fprint_disconnect(struct usb_interface *intf)
     struct usb_device* usbdev = interface_to_usbdev(intf);
     struct fprint_drv_data* drvdata = dev_get_drvdata(&usbdev->dev);
     if (drvdata != NULL) {
-        // usb_free_urb(drvdata->urb);
         kfree(drvdata->transfer_buffer);
         kfree(drvdata);
         printk(KERN_INFO LOG_PREFIX "driver data free'd\n");
     }
 }
 \end{lstlisting}
+
+\clearpage
 
 \section{Работа с файловой системой proc}
 
@@ -143,6 +143,66 @@ static unsigned int poll(struct file *file, poll_table *wait)
     poll_wait(file, &poll_wait_queue, wait);
     if (signature_data_available)
         return POLLIN | POLLRDNORM;
+    return 0;
+}
+\end{lstlisting}
+
+\section{Инициализация TLS-соединения}
+
+\begin{lstlisting}[caption={Инициализация TLS-соединения}]
+#define PSK_LENGTH 1024
+static unsigned char global_psk[PSK_LENGTH];
+static int is_first_attempt = 1;
+
+struct conn_request {
+    __u8 type;
+#define CONNECTION_TLS_REQUEST 0x03
+    __u8 data;
+};
+
+static int send_connection_request(struct usb_device *dev) {
+    struct urb *urb = usb_alloc_urb(0, GFP_KERNEL);
+    struct conn_request buffer = { .type = CONNECTION_TLS_REQUEST, .data = 0 };
+
+    usb_fill_control_urb(urb, dev, usb_sndctrlpipe(dev, 0), &buffer, sizeof(struct conn_request), usb_callback_fn, NULL);
+    usb_submit_urb(urb);
+    return usb_wait_fn(urb);
+}
+
+static int get_psk(struct usb_device *dev, unsigned char *psk) {
+    struct urb *urb = usb_alloc_urb(0, GFP_KERNEL);
+    
+    usb_fill_bulk_urb(urb, dev, usb_rcvbulkpipe(dev, 1), psk, PSK_LENGTH, usb_callback_fn, NULL);
+    usb_submit_urb(urb);
+    return usb_wait_fn(urb);
+}
+
+static int initialize_tls_connection(struct usb_device *dev) {
+    int ret;
+    unsigned char psk[PSK_LENGTH];
+
+    ret = send_connection_request(dev);
+    if (ret < 0) {
+        printk(KERN_ERR LOG_PREFIX "Failed to send connection request to the fingerprint scanner\n");
+        return ret;
+    }
+
+    ret = get_psk(dev, psk);
+    if (ret < 0) {
+        printk(KERN_ERR LOG_PREFIX "Failed to get PSK from the fingerprint scanner\n");
+        return ret;
+    }
+
+    if (is_first_attempt) {
+        memcpy(global_psk, psk, PSK_LENGTH);
+        is_first_attempt = 0;
+    } else {
+        if (memcmp(global_psk, psk, PSK_LENGTH) != 0) {
+            printk(KERN_ERR LOG_PREFIX "Mismatched PSK values, terminating TLS connection initialization\n");
+            return -EINVAL;
+        }
+    }
+
     return 0;
 }
 \end{lstlisting}

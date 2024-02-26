@@ -19,11 +19,281 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global}
-    \entry{vfs-proc}{misc}{}
+    \entry{goodix}{article}{useauthor=false}
+      \name{author}{5}{}{%
+        {{hash=4b1a04ecfc4e3e144f214433c8d8ff90}{%
+           family={Peng},
+           familyi={P\bibinitperiod},
+           given={Chang},
+           giveni={C\bibinitperiod}}}%
+        {{hash=eccd24681d4f016ded2a0be4bcf70dd5}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Mengyue},
+           giveni={M\bibinitperiod}}}%
+        {{hash=c8e2b2f551fe00b1935e2daae927d767}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Hongchao},
+           giveni={H\bibinitperiod}}}%
+        {{hash=314fdb7494e212560a3099fa4928b852}{%
+           family={Shen},
+           familyi={S\bibinitperiod},
+           given={Jian},
+           giveni={J\bibinitperiod}}}%
+        {{hash=39f2bf4c7234dc98f98689ebcd23ec2a}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Xiaoning},
+           giveni={X\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{authorbibnamehash}{b9474a38552ab4823d785cf5514c8cb2}
+      \strng{authornamehash}{b9474a38552ab4823d785cf5514c8cb2}
+      \strng{authorfullhash}{a3146575c757e2c332eb128d3eb00289}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
+      \field{internalsortvolume}{20}
+      \field{journaltitle}{IEEE Sensors Journal}
+      \field{title}{P (VDF-TrFE) thin-film-based transducer for under-display ultrasonic fingerprint sensing applications}
+      \field{year}{2020}
+      \field{number}{19}
+      \range{number}{1}
+      \field{pages}{11221\bibrangedash 11228}
+      \range{pages}{8}
+      \field{volume}{20}
+      \range{volume}{1}
+    \endentry
+    \entry{USB}{misc}{}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{title}
+      \field{title}{Linux USB Basics. [Электронный ресурс]. URL: https://www.kernel.org/doc/htmldocs/writing\_usb\_driver/basics.html (Дата обращения: 21.11.2023)}
+    \endentry
+    \entry{sysfs}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=d1ee9b0ec3eb9bdc404353e0430630f8}{%
+           family={Mochel},
+           familyi={M\bibinitperiod},
+           given={Patrick},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {The Linux Foundation San Francisco, CA, USA}%
+      }
+      \strng{namehash}{d1ee9b0ec3eb9bdc404353e0430630f8}
+      \strng{fullhash}{d1ee9b0ec3eb9bdc404353e0430630f8}
+      \strng{bibnamehash}{d1ee9b0ec3eb9bdc404353e0430630f8}
+      \strng{authorbibnamehash}{d1ee9b0ec3eb9bdc404353e0430630f8}
+      \strng{authornamehash}{d1ee9b0ec3eb9bdc404353e0430630f8}
+      \strng{authorfullhash}{d1ee9b0ec3eb9bdc404353e0430630f8}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Linux Symposium}
+      \field{internalsortvolume}{1}
+      \field{title}{The sysfs filesystem}
+      \field{year}{2005}
+      \field{pages}{313\bibrangedash 326}
+      \range{pages}{14}
+      \field{volume}{1}
+      \range{volume}{1}
+    \endentry
+    \entry{usb-driver}{article}{}
+      \name{author}{1}{}{%
+        {{hash=8edf24ea3e75c726f2c163493ab3e3c3}{%
+           family={Kroah-Hartman},
+           familyi={K\bibinithyphendelim H\bibinitperiod},
+           given={Greg},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Belltown Media Houston, TX}%
+      }
+      \strng{namehash}{8edf24ea3e75c726f2c163493ab3e3c3}
+      \strng{fullhash}{8edf24ea3e75c726f2c163493ab3e3c3}
+      \strng{bibnamehash}{8edf24ea3e75c726f2c163493ab3e3c3}
+      \strng{authorbibnamehash}{8edf24ea3e75c726f2c163493ab3e3c3}
+      \strng{authornamehash}{8edf24ea3e75c726f2c163493ab3e3c3}
+      \strng{authorfullhash}{8edf24ea3e75c726f2c163493ab3e3c3}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{internalsortvolume}{2001}
+      \field{journaltitle}{Linux Journal}
+      \field{title}{Kernel Korner How to Write a Linux USB Device Driver}
+      \field{year}{2001}
+      \field{number}{90}
+      \range{number}{1}
+      \field{pages}{4}
+      \range{pages}{1}
+      \field{volume}{2001}
+      \range{volume}{1}
+    \endentry
+    \entry{tls}{book}{}
+      \name{author}{1}{}{%
+        {{hash=1510100b06a9344cccbe924758a87b1d}{%
+           family={Oppliger},
+           familyi={O\bibinitperiod},
+           given={Rolf},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Artech House}%
+      }
+      \strng{namehash}{1510100b06a9344cccbe924758a87b1d}
+      \strng{fullhash}{1510100b06a9344cccbe924758a87b1d}
+      \strng{bibnamehash}{1510100b06a9344cccbe924758a87b1d}
+      \strng{authorbibnamehash}{1510100b06a9344cccbe924758a87b1d}
+      \strng{authornamehash}{1510100b06a9344cccbe924758a87b1d}
+      \strng{authorfullhash}{1510100b06a9344cccbe924758a87b1d}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{SSL and TLS: Theory and Practice}
+      \field{year}{2023}
+    \endentry
+    \entry{encryption}{article}{}
+      \name{author}{2}{}{%
+        {{hash=5ae31b5c59f7e5bc7f50815dbd47afa4}{%
+           family={Bhanot},
+           familyi={B\bibinitperiod},
+           given={Rajdeep},
+           giveni={R\bibinitperiod}}}%
+        {{hash=8cf954ae4f18c9af901b9f12cdaa2567}{%
+           family={Hans},
+           familyi={H\bibinitperiod},
+           given={Rahul},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{0e41b70200cbee400965525d79403ee3}
+      \strng{fullhash}{0e41b70200cbee400965525d79403ee3}
+      \strng{bibnamehash}{0e41b70200cbee400965525d79403ee3}
+      \strng{authorbibnamehash}{0e41b70200cbee400965525d79403ee3}
+      \strng{authornamehash}{0e41b70200cbee400965525d79403ee3}
+      \strng{authorfullhash}{0e41b70200cbee400965525d79403ee3}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{internalsortvolume}{9}
+      \field{journaltitle}{International Journal of Security and Its Applications}
+      \field{title}{A review and comparative analysis of various encryption algorithms}
+      \field{year}{2015}
+      \field{number}{4}
+      \range{number}{1}
+      \field{pages}{289\bibrangedash 306}
+      \range{pages}{18}
+      \field{volume}{9}
+      \range{volume}{1}
+    \endentry
+    \entry{vfs-proc}{misc}{}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labeltitlesource}{title}
       \field{title}{The /proc Filesystem -- The Linux Kernel documentation. [Электронный ресурс]. URL: https://docs.kernel.org/filesystems/proc.html (Дата обращения: 21.11.2023)}
+    \endentry
+    \entry{psk}{inproceedings}{useauthor=false}
+      \name{author}{5}{}{%
+        {{hash=78be8ea0cb80e4e1b59bf06100942e90}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yong},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=27e5fb56ec73bdc43cf340b09ad8a493}{%
+           family={Schäge},
+           familyi={S\bibinitperiod},
+           given={Sven},
+           giveni={S\bibinitperiod}}}%
+        {{hash=3bdf155c3aaba1a55921ba1c97ab13a7}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Zheng},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=3980775a5c8be6a9bba7c4a1c8c51df8}{%
+           family={Kohlar},
+           familyi={K\bibinitperiod},
+           given={Florian},
+           giveni={F\bibinitperiod}}}%
+        {{hash=2e8d508dc1580d520895855612148b91}{%
+           family={Schwenk},
+           familyi={S\bibinitperiod},
+           given={Jörg},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Springer}%
+      }
+      \strng{authorbibnamehash}{4cdb3797d3d168edfb0c22148c40c49d}
+      \strng{authornamehash}{4cdb3797d3d168edfb0c22148c40c49d}
+      \strng{authorfullhash}{1b2a6b2e6e410a13b6cd56b2d54a8192}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Public-Key Cryptography--PKC 2014: 17th International Conference on Practice and Theory in Public-Key Cryptography, Buenos Aires, Argentina, March 26-28, 2014. Proceedings 17}
+      \field{title}{On the security of the pre-shared key ciphersuites of TLS}
+      \field{year}{2014}
+      \field{pages}{669\bibrangedash 684}
+      \range{pages}{16}
+    \endentry
+    \entry{toolbox}{book}{}
+      \name{author}{1}{}{%
+        {{hash=94e8821f3a67bf244508640b0f86aa6e}{%
+           family={Fusco},
+           familyi={F\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Pearson Education}%
+      }
+      \strng{namehash}{94e8821f3a67bf244508640b0f86aa6e}
+      \strng{fullhash}{94e8821f3a67bf244508640b0f86aa6e}
+      \strng{bibnamehash}{94e8821f3a67bf244508640b0f86aa6e}
+      \strng{authorbibnamehash}{94e8821f3a67bf244508640b0f86aa6e}
+      \strng{authornamehash}{94e8821f3a67bf244508640b0f86aa6e}
+      \strng{authorfullhash}{94e8821f3a67bf244508640b0f86aa6e}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Linux programmer's toolbox}
+      \field{year}{2007}
+    \endentry
+    \entry{vscode}{book}{}
+      \name{author}{2}{}{%
+        {{hash=48836e4979aad9048469b7ea3c98203e}{%
+           family={Del\bibnamedelima Sole},
+           familyi={D\bibinitperiod\bibinitdelim S\bibinitperiod},
+           given={Alessandro},
+           giveni={A\bibinitperiod}}}%
+        {{hash=6cf5b7ba652adf4f6b414e43a71ae2d5}{%
+           family={Sole},
+           familyi={S\bibinitperiod},
+           given={Del},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{d2cdf68e26bd609d14c9ac0843a1be76}
+      \strng{fullhash}{d2cdf68e26bd609d14c9ac0843a1be76}
+      \strng{bibnamehash}{d2cdf68e26bd609d14c9ac0843a1be76}
+      \strng{authorbibnamehash}{d2cdf68e26bd609d14c9ac0843a1be76}
+      \strng{authornamehash}{d2cdf68e26bd609d14c9ac0843a1be76}
+      \strng{authorfullhash}{d2cdf68e26bd609d14c9ac0843a1be76}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Visual Studio Code Distilled}
+      \field{year}{2019}
     \endentry
   \enddatalist
 \endrefsection
