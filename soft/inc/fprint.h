@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bits/types/struct_timespec.h>
+#include <stddef.h>
 
 #define PE_OK    0
 #define PE_NODEV 1
